@@ -1,30 +1,61 @@
 import {
   View,
-  Text,
   useWindowDimensions,
-  Button,
-  Modal,
   StatusBar,
+  LogBox,
+  Button,
+  Pressable
 } from "react-native";
-import React, { memo, useCallback, useState, useEffect } from "react";
+import React, { memo, useState, useEffect,useMemo} from "react";
 import * as Animatable from "react-native-animatable";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { DeviceMotion } from "expo-sensors";
 import { useDispatch, useSelector } from "react-redux";
-import { setCounter, setResetTimer, setTimeDuration } from "../redux/MySlice";
+import { setCounter,  } from "../redux/MySlice";
 import CountDown from "react-native-countdown-component";
+import datas from "./data";
+import { Audio } from 'expo-av';
 
-export const CorrectSceen = () => {
+export const CorrectSceen = ({route}) => {
+  const CorrectScreenSound = useSelector((state) => state.MySlice.CorrectScreenSound);
+  const [sound, setSound] = useState();
+  
+  const subscribe = async() => {
+    console.log('Loading Sound');
+    const { sound } = await Audio.Sound.createAsync(require('../assets/correct-6033.mp3')
+    );
+    setSound(sound);
+
+    console.log('Playing Sound');
+    await CorrectScreenSound ? sound.playAsync() : null
+  }
+
+  useMemo(() => {
+    subscribe()
+  }, [CorrectScreenSound])
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          console.log('Unloading Sound');
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
+
   const dispatch = useDispatch();
-  const ResetTimer = useSelector((state) => state.MySlice.ResetTimer);
 
   const [CorrectTimeout, setCorrectTimeout] = useState(false);
   console.log("CorrectSceen call");
   const navigation = useNavigation();
 
   useEffect(() => {
-    dispatch(setCounter());
-    dispatch(setTimeDuration());
+    const subscribe = async() => {
+      setTimeout(() => {
+        dispatch(setCounter());
+      }, 500)
+    }
+    subscribe()
   }, []);
 
   setTimeout(() => {
@@ -43,7 +74,7 @@ export const CorrectSceen = () => {
     >
       <Animatable.Text
         animation="fadeIn"
-        duration={1000}
+        duration={2000}
         iterationCount={Infinity}
         style={{ fontSize: 100, color: "white" }}
       >
@@ -54,7 +85,31 @@ export const CorrectSceen = () => {
 };
 
 export const PassedSceen = () => {
-  const ResetTimer = useSelector((state) => state.MySlice.ResetTimer);
+  const PassedScreenSound = useSelector((state) => state.MySlice.PassedScreenSound);
+  const [sound, setSound] = useState();
+  
+  const subscribe = async() => {
+    console.log('Loading Sound');
+    const { sound } = await Audio.Sound.createAsync(require('../assets/wrong-answer-126515.mp3')
+    );
+    setSound(sound);
+
+    console.log('Playing Sound');
+    await PassedScreenSound ? sound.playAsync() : null
+  }
+
+  useMemo(() => {
+    subscribe()
+  }, [PassedScreenSound])
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          console.log('Unloading Sound');
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
 
   const dispatch = useDispatch();
   console.log("PassedSceen call");
@@ -63,7 +118,6 @@ export const PassedSceen = () => {
 
   useEffect(() => {
     dispatch(setCounter());
-    dispatch(setTimeDuration());
   }, []);
 
   setTimeout(() => {
@@ -94,6 +148,31 @@ export const PassedSceen = () => {
 };
 
 export const TimeOutScreen = () => {
+  const [TimeOutSound, setTimeOutSound] = useState(true)
+  const [sound, setSound] = useState();
+  
+  const subscribe = async() => {
+    console.log('Loading Sound');
+    const { sound } = await Audio.Sound.createAsync(require('../assets/Basketball.m4a')
+    );
+    setSound(sound);
+
+    console.log('Playing Sound');
+    await TimeOutSound ? sound.playAsync() : null
+  }
+
+  useMemo(() => {
+    subscribe()
+  }, [TimeOutSound])
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          console.log('Unloading Sound');
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
   console.log("TimeOutScreen call");
 
   useEffect(() => {
@@ -124,24 +203,22 @@ export const TimeOutScreen = () => {
 };
 
 const HomeScreen = () => {
-  // LogBox.ignoreAllLogs();
 
+  const [TimerPandP, setTimerPandP] = useState(true)
+  const [TimerPandPbtn, setTimerPandPBtn] = useState("Pause")
+  LogBox.ignoreAllLogs()
+  const dispatch = useDispatch();
   const counter = useSelector((state) => state.MySlice.counter);
-  const ResetTimer = useSelector((state) => state.MySlice.ResetTimer);
+  // const boom2 = useSelector((state) => state.MySlice.boom2);
+  console.log("counter",counter)
+
+  let boom = datas[counter]
+  
   const TimeDuration = useSelector((state) => state.MySlice.TimeDuration);
   const [checlDeviceMotion, setCheclDeviceMotion] = useState(false);
-  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [data, setData] = useState({});
   console.log("useState data", data);
-
-  let { alpha, beta, gamma } = data;
-
-  const { height, width } = useWindowDimensions();
-
-  const [startTimer, setStartTimer] = useState(true);
-  const [timerDurations, setTotalDuration] = useState(30);
-  const [getTime, setGetTime] = useState(null);
 
   useEffect(() => {
     console.log("1st useEffect running");
@@ -180,35 +257,35 @@ const HomeScreen = () => {
       console.log("newgammaforminus90", newgammaforminus90);
       console.log("newgammafor90", newgammafor90);
 
-      if (checlDeviceMotion) {
-        switch (newgammaforminus90) {
-          case 2:
-            console.log("I own a up newgammaforminus90");
-            navigation.navigate("CorrectSceen");
-            break;
-          case 0:
-            console.log("I own a down newgammaforminus90");
-            navigation.navigate("PassedSceen");
-            break;
-          default:
-            console.log("I don't own a screen newgammaforminus90");
-            break;
+        if (checlDeviceMotion) {
+          switch (newgammaforminus90) {
+            case 2:
+              console.log("I own a up newgammaforminus90",boom);
+              navigation.navigate("CorrectSceen", {CorrectSceenData: boom ? boom : "soory i caont find value"});
+              break;
+            case 0:
+              console.log("I own a down newgammaforminus90",{PassedSceenData: boom ? boom : "soory i caont find value"});
+              navigation.navigate("PassedSceen");
+              break;
+            default:
+              console.log("I don't own a screen newgammaforminus90");
+              break;
+          }
+        } else {
+          switch (newgammafor90) {
+            case -2:
+              console.log("I own a up newgammafor90",boom2);
+              navigation.navigate("CorrectSceen",{CorrectSceenData: boom ? boom : "soory i caont find value"});
+              break;
+            case 0:
+              console.log("I own a down newgammafor90", );
+              navigation.navigate("PassedSceen",{PassedSceenData: boom ? boom : "soory i caont find value"});
+              break;
+            default:
+              console.log("I don't own a screen newgammafor90");
+              break;
+          }
         }
-      } else {
-        switch (newgammafor90) {
-          case -2:
-            console.log("I own a up newgammafor90");
-            navigation.navigate("CorrectSceen");
-            break;
-          case 0:
-            console.log("I own a down newgammafor90");
-            navigation.navigate("PassedSceen");
-            break;
-          default:
-            console.log("I don't own a screen newgammafor90");
-            break;
-        }
-      }
     });
     console.log("_subscribe end");
     _setInterval();
@@ -220,29 +297,25 @@ const HomeScreen = () => {
     console.log("_unsubscribe end");
   };
 
-  let datas = [
-    "Elephant",
-    "Zebra",
-    "Monkey",
-    "Elephant",
-    "Zebra",
-    "Monkey",
-    "Elephant",
-    "Zebra",
-    "Monkey",
-  ];
-  console.log("counter",counter)
-  let boom = datas[counter];
+  const handlePlayandPause  = () => {
+    setTimerPandP(!TimerPandP)
+    setTimerPandPBtn(TimerPandP == false ? "Pause" : "Play")
+  }
 
   return (
-    <View
+    <Pressable
       style={{
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#3e2772",
       }}
+      onPressIn={handlePlayandPause}
+      // onPressOut={handlePlayandPause} //!
     >
+      <View style={{marginLeft: 'auto',marginRight: 10,marginTop: 10}}>
+      <Button title={TimerPandPbtn} onPress={handlePlayandPause}/>
+      </View>
       <View style={{ justifyContent: "space-between", alignItems: "center" }}>
         <CountDown
           size={25}
@@ -252,12 +325,12 @@ const HomeScreen = () => {
           digitTxtStyle={{ color: "white" }}
           timeToShow={["S"]}
           timeLabels={{ d: null, h: null, m: null, s: null }}
+          running={TimerPandP}
           // showSeparator
         />
         <Animatable.Text
           animation="fadeIn"
           duration={1000}
-
           style={{ fontSize: 100, color: "white" }}
         >
           {boom}
@@ -266,7 +339,7 @@ const HomeScreen = () => {
       </View>
       {/* <Button onPress={_unsubscribe} title="off" />
       <Button onPress={_subscribe} title="on" /> */}
-    </View>
+    </Pressable>
   );
 };
 

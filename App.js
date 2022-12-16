@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View,LogBox } from 'react-native'
+import { StyleSheet, LogBox } from 'react-native'
 import React from 'react'
-import Navigation from './navigation/Navigation';
 import { Provider } from 'react-redux';
 import { store } from './redux/MYStore';
+import Navigation from './navigation/Navigation'
 
 const App = () => {
   LogBox.ignoreAllLogs();
