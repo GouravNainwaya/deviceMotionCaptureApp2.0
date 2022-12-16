@@ -203,13 +203,23 @@ export const TimeOutScreen = () => {
 };
 
 const HomeScreen = () => {
+  let datas = [
+    "Elephant",
+    "Zebra",
+    "Monkey",
+    "Elephant",
+    "Zebra",
+    "Monkey",
+    "Elephant",
+    "Zebra",
+    "Monkey",
+  ];
 
   const [TimerPandP, setTimerPandP] = useState(true)
   const [TimerPandPbtn, setTimerPandPBtn] = useState("Pause")
   LogBox.ignoreAllLogs()
   const dispatch = useDispatch();
   const counter = useSelector((state) => state.MySlice.counter);
-  // const boom2 = useSelector((state) => state.MySlice.boom2);
   console.log("counter",counter)
 
   let boom = datas[counter]
@@ -261,10 +271,10 @@ const HomeScreen = () => {
           switch (newgammaforminus90) {
             case 2:
               console.log("I own a up newgammaforminus90",boom);
-              navigation.navigate("CorrectSceen", {CorrectSceenData: boom ? boom : "soory i caont find value"});
+              navigation.navigate("CorrectSceen");
               break;
             case 0:
-              console.log("I own a down newgammaforminus90",{PassedSceenData: boom ? boom : "soory i caont find value"});
+              console.log("I own a down newgammaforminus90");
               navigation.navigate("PassedSceen");
               break;
             default:
@@ -274,12 +284,12 @@ const HomeScreen = () => {
         } else {
           switch (newgammafor90) {
             case -2:
-              console.log("I own a up newgammafor90",boom2);
-              navigation.navigate("CorrectSceen",{CorrectSceenData: boom ? boom : "soory i caont find value"});
+              console.log("I own a up newgammafor90",);
+              navigation.navigate("CorrectSceen");
               break;
             case 0:
               console.log("I own a down newgammafor90", );
-              navigation.navigate("PassedSceen",{PassedSceenData: boom ? boom : "soory i caont find value"});
+              navigation.navigate("PassedSceen");
               break;
             default:
               console.log("I don't own a screen newgammafor90");
@@ -313,7 +323,7 @@ const HomeScreen = () => {
       onPressIn={handlePlayandPause}
       // onPressOut={handlePlayandPause} //!
     >
-      <View style={{marginLeft: 'auto',marginRight: 10,marginTop: 10}}>
+      <View style={{marginLeft: 'auto',marginRight: 10,marginTop: 30}}>
       <Button title={TimerPandPbtn} onPress={handlePlayandPause}/>
       </View>
       <View style={{ justifyContent: "space-between", alignItems: "center" }}>

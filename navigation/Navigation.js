@@ -10,7 +10,7 @@ import HomeScreen, {
 import InitialTimer from "./../Screens/InitialTimer";
 import { StatusBar } from "expo-status-bar";
 import IntroScreen from "./../Screens/IntroScreen";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
@@ -18,14 +18,14 @@ const Navigation = () => {
 
   setTimeout(() => {
     setinitlalTimeOut(false);
-  }, 4000)
+  }, 4000);
 
   return (
     <View style={{ flex: 1 }}>
       <StatusBar style="light" />
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="IntroScreen"
+          // initialRouteName="IntroScreen"
           screenOptions={{ headerShown: false }}
         >
           <Stack.Screen
@@ -33,14 +33,14 @@ const Navigation = () => {
             component={IntroScreen}
             options={{ headerShown: false, orientation: "portrait" }}
           />
-          {initlalTimeOut ? (
+          {/* {initlalTimeOut ? ( */}
             <Stack.Screen
-            name="InitialTimer"
-            component={InitialTimer}
-            options={{ headerShown: false, orientation: "landscape" }}
+              name="InitialTimer"
+              component={InitialTimer}
+              options={{ headerShown: false, orientation: "landscape" }}
             />
-            ) : ( 
-              <> 
+          {/* ) : ( */}
+             {/* <>  */}
               <Stack.Screen
                 name="HomeScreen"
                 component={HomeScreen}
@@ -69,14 +69,14 @@ const Navigation = () => {
                 component={TimeOutScreen}
                 options={{ orientation: "landscape" }}
               />
-            </> 
-           )}
+             {/* </>  */}
+           {/* )} */}
         </Stack.Navigator>
       </NavigationContainer>
     </View>
   );
 };
 
-export default memo(Navigation);
+export default Navigation
 
 const styles = StyleSheet.create({});

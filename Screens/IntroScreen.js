@@ -20,7 +20,7 @@ const IntroScreen = ({navigation}) => {
         flex: 1
     }}>
     <Text style={{fontSize: 50,color: 'white',fontStyle: 'italic',fontWeight: '600',}}>   CATCH {'\n'} PHRASES</Text>
-        <Btn text={"PLAY"} icon={false} onPress={navigation.navigate('InitialTimer')}/>
+        <Btn text={"PLAY"} icon={false} onPress={() => navigation.navigate('InitialTimer')}/>
         <Btn text={"DECKS"} icon={false} borderRadius={500} onPress={null}/>
         <Btn text={"TEAM MODE"} icon={true} onPress={null}/>
         <Btn text={"MORE GAMES"} icon={false} onPress={null}/>
