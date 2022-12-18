@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React,{memo} from 'react'
 import { EvilIcons ,Entypo} from '@expo/vector-icons';
 
 const Header = () => {
@@ -13,6 +13,6 @@ const Header = () => {
   )
 }
 
-export default Header
+export default memo(Header)
 
 const styles = StyleSheet.create({})

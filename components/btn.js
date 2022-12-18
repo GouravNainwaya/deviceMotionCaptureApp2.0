@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React,{memo} from 'react'
 import { Entypo } from '@expo/vector-icons';
 
 const Btn = ({text,icon,onPress}) => {
@@ -16,6 +16,6 @@ const Btn = ({text,icon,onPress}) => {
   )
 }
 
-export default Btn
+export default memo(Btn)
 
 const styles = StyleSheet.create({})

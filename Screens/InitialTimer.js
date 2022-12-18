@@ -58,7 +58,7 @@ const InitialTimer = ({ navigation }) => {
   );
 };
 
-export default InitialTimer;
+export default memo(InitialTimer);
 
 const options = {
   container: {

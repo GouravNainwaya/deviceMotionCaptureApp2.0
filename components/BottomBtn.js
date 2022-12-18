@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View,TouchableOpacity,useWindowDimensions } from 'react-native'
-import React from 'react'
+import React,{memo} from 'react'
 import { Icon } from '@rneui/themed';
 
 const BottomBtn = ({type,icon}) => {
@@ -11,6 +11,6 @@ const BottomBtn = ({type,icon}) => {
   )
 }
 
-export default BottomBtn
+export default memo(BottomBtn)
 
 const styles = StyleSheet.create({})

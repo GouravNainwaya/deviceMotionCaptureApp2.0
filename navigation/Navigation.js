@@ -77,6 +77,6 @@ const Navigation = () => {
   );
 };
 
-export default Navigation
+export default memo(Navigation)
 
 const styles = StyleSheet.create({});

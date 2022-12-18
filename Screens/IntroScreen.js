@@ -1,11 +1,12 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React,{memo} from 'react'
 import Header from '../components/Header'
 import Btn from '../components/btn';
 import BottomBtn from '../components/BottomBtn';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { memo } from 'react';
 
 const IntroScreen = ({navigation}) => {
     // const navigation = useNavigation()
@@ -36,6 +37,6 @@ const IntroScreen = ({navigation}) => {
   )
 }
 
-export default IntroScreen
+export default memo(IntroScreen)
 
 const styles = StyleSheet.create({})

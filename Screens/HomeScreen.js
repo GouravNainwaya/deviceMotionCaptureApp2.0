@@ -353,7 +353,7 @@ const HomeScreen = () => {
   );
 };
 
-export default memo(HomeScreen);
+export default memo(HomeScreen)
 
 const options = {
   container: {
